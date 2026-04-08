@@ -3,7 +3,7 @@ FROM nvcr.io/nvidia/cuda:12.6.3-devel-ubuntu22.04 AS common
 
 # Aggiunta della direttiva LABEL per fornire metadati
 LABEL maintainer="Francesco Benincasa <xcesco@gmail.com>" \
-      version="0.2.2" \
+      version="0.3.0" \
       description="FVG Vision AI on docker"
 
 # Esposizione delle porte 5000 e 8080 (video in oupput)

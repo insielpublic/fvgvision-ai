@@ -3,7 +3,7 @@ FROM python:3.10.15-slim-bullseye AS common
 
 # Aggiunta della direttiva LABEL per fornire metadati
 LABEL maintainer="Francesco Benincasa <xcesco@gmail.com>" \
-      version="0.2.1" \
+      version="0.3.0" \
       description="FVG Vision AI on docker"
 
 # Esposizione delle porte 5000 e 8080 (video in oupput)

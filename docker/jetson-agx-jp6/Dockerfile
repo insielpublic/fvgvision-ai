@@ -2,7 +2,7 @@ FROM nvcr.io/nvidia/l4t-jetpack:r36.3.0 AS common
 
 # Aggiunta della direttiva LABEL per fornire metadati
 LABEL maintainer="Francesco Benincasa <xcesco@gmail.com>" \
-      version="0.1.0" \
+      version="0.3.0" \
       description="FVG Vision AI on docker"
 
 
