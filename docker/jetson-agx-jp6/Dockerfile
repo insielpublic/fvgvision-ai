@@ -56,7 +56,8 @@ RUN pip3 install jetson-stats
 
 # Nginx
 RUN apt-get update && apt install -y nginx
-COPY ./build/assets/nginx/players /usr/share/nginx/html/
+COPY ./build/assets/nginx/editor /usr/share/nginx/html/editor
+COPY ./build/assets/nginx/players /usr/share/nginx/html/output-stream
 COPY ./build/assets/nginx/config/nginx.conf /etc/nginx/nginx.conf
 
 # Start Nginx
@@ -174,7 +175,7 @@ RUN pip3 install                        \
         seaborn configparser pytz       \
         azure.iot.device openpyxl       \
         onnx onnxsim    \
-        flask flask_wtf Flask-CORS waitress
+        flask flask_wtf Flask-CORS flask-swagger-ui waitress
 
 RUN pip install --no-deps ultralytics
 

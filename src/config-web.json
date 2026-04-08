@@ -1,7 +1,7 @@
 {
     "nodes": [
         {
-            "id": "37",
+            "id": "1",
             "name": "Input stream",
             "data": {
                 "type": "INPUT_STREAM",
@@ -20,11 +20,11 @@
             },
             "position": {
                 "x": -900,
-                "y": 69
+                "y": 71.5
             }
         },
         {
-            "id": "38",
+            "id": "2",
             "name": "FPS Limiter",
             "data": {
                 "type": "INPUT_STREAM_FPS_LIMITER",
@@ -34,12 +34,12 @@
                 }
             },
             "position": {
-                "x": -117,
-                "y": 200
+                "x": -159,
+                "y": 202
             }
         },
         {
-            "id": "39",
+            "id": "3",
             "name": "Input resizer",
             "data": {
                 "type": "INPUT_RESIZER",
@@ -49,12 +49,12 @@
                 }
             },
             "position": {
-                "x": 366,
-                "y": 200
+                "x": 348,
+                "y": 202
             }
         },
         {
-            "id": "40",
+            "id": "4",
             "name": "Ultralytics Processing",
             "data": {
                 "type": "ULTRALYTICS_PROCESSING",
@@ -70,12 +70,12 @@
                 }
             },
             "position": {
-                "x": 843,
-                "y": 140
+                "x": 851,
+                "y": 78
             }
         },
         {
-            "id": "41",
+            "id": "5",
             "name": "Output stream FPS Limiter",
             "data": {
                 "type": "OUTPUT_STREAM_FPS_LIMITER",
@@ -90,7 +90,7 @@
             }
         },
         {
-            "id": "42",
+            "id": "6",
             "name": "Output stream",
             "data": {
                 "type": "OUTPUT_STREAM",
@@ -107,7 +107,7 @@
             }
         },
         {
-            "id": "43",
+            "id": "7",
             "name": "Display info",
             "data": {
                 "type": "DISPLAY",
@@ -123,12 +123,12 @@
                 }
             },
             "position": {
-                "x": 1561,
-                "y": -17
+                "x": 1656,
+                "y": -2
             }
         },
         {
-            "id": "44",
+            "id": "8",
             "name": "IOT Hub notification",
             "data": {
                 "type": "IOT_HUB_NOTIFICATION",
@@ -141,12 +141,12 @@
                 }
             },
             "position": {
-                "x": 1449,
-                "y": 817
+                "x": 1746,
+                "y": 823
             }
         },
         {
-            "id": "45",
+            "id": "9",
             "name": "Scenario In Zone",
             "data": {
                 "type": "SCENARIO_IN_ZONE",
@@ -160,89 +160,117 @@
                 }
             },
             "position": {
-                "x": 1973,
-                "y": 465
+                "x": 2269,
+                "y": 525
+            }
+        },
+        {
+            "id": "10",
+            "name": "Output image",
+            "data": {
+                "type": "OUTPUT_IMAGE",
+                "payload": {
+                    "enabled": true,
+                    "image_type": "WEBP",
+                    "image_quality": 50,
+                    "image_port": 5000,
+                    "image_password": "simple_access1"
+                }
+            },
+            "position": {
+                "x": 1619,
+                "y": 1265.5
             }
         }
     ],
     "connections": [
         {
             "from": {
-                "nodeId": "37",
+                "nodeId": "1",
                 "output": "output_1"
             },
             "to": {
-                "nodeId": "38",
+                "nodeId": "2",
                 "input": "input_1"
             }
         },
         {
             "from": {
-                "nodeId": "38",
+                "nodeId": "2",
                 "output": "output_1"
             },
             "to": {
-                "nodeId": "39",
+                "nodeId": "3",
                 "input": "input_1"
             }
         },
         {
             "from": {
-                "nodeId": "39",
+                "nodeId": "3",
                 "output": "output_1"
             },
             "to": {
-                "nodeId": "40",
+                "nodeId": "4",
                 "input": "input_1"
             }
         },
         {
             "from": {
-                "nodeId": "40",
+                "nodeId": "4",
                 "output": "output_1"
             },
             "to": {
-                "nodeId": "41",
+                "nodeId": "5",
                 "input": "input_1"
             }
         },
         {
             "from": {
-                "nodeId": "40",
+                "nodeId": "4",
                 "output": "output_2"
             },
             "to": {
-                "nodeId": "43",
+                "nodeId": "7",
                 "input": "input_1"
             }
         },
         {
             "from": {
-                "nodeId": "40",
+                "nodeId": "4",
                 "output": "output_3"
             },
             "to": {
-                "nodeId": "45",
+                "nodeId": "9",
                 "input": "input_1"
             }
         },
         {
             "from": {
-                "nodeId": "40",
+                "nodeId": "4",
                 "output": "output_4"
             },
             "to": {
-                "nodeId": "44",
+                "nodeId": "8",
                 "input": "input_1"
             }
         },
         {
             "from": {
-                "nodeId": "41",
+                "nodeId": "4",
+                "output": "output_5"
+            },
+            "to": {
+                "nodeId": "10",
+                "input": "input_1"
+            }
+        },
+        {
+            "from": {
+                "nodeId": "5",
                 "output": "output_1"
             },
             "to": {
-                "nodeId": "42",
+                "nodeId": "6",
                 "input": "input_1"
             }
         }

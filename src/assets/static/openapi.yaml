@@ -1,0 +1,143 @@
+openapi: 3.0.0
+info:
+  title: Web Controller API
+  version: 1.0.0
+  description: API for controlling and monitoring the application and providing video stream previews.
+servers:
+  - url: http://0.0.0.0:8081
+paths:
+  /start:
+    get:
+      summary: Start the application
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [file, env]
+            default: env
+          description: Type of execution (file or env)
+      responses:
+        '200':
+          description: Application started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  result:
+                    type: string
+                    example: RUNNING
+                  description:
+                    type: string
+                    example: App is RUNNING
+        '400':
+          description: Invalid type parameter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid 'type' parameter. Must be 'file' or 'env'.
+  /stop:
+    get:
+      summary: Stop the application
+      responses:
+        '200':
+          description: Application stopped successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  result:
+                    type: string
+                    example: TERMINATED
+                  description:
+                    type: string
+                    example: App is TERMINATED
+  /status:
+    get:
+      summary: Check the application status
+      responses:
+        '200':
+          description: Application status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  result:
+                    type: string
+                    example: RUNNING
+                  description:
+                    type: string
+                    example: App is RUNNING
+  /preview:
+    get:
+      summary: Get a preview of the video stream
+      parameters:
+        - in: query
+          name: url
+          schema:
+            type: string
+          required: true
+          description: Base64 encoded URL of the video stream
+        - in: query
+          name: width
+          schema:
+            type: integer
+          description: Width of the preview image
+        - in: query
+          name: height
+          schema:
+            type: integer
+          description: Height of the preview image
+      responses:
+        '200':
+          description: Video stream preview retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  image:
+                    type: string
+                    example: <base64_image>
+                  width:
+                    type: integer
+                    example: 800
+                  height:
+                    type: integer
+                    example: 600
+        '400':
+          description: URL parameter is required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: URL is required
+        '500':
+          description: Default image not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Default image not found

@@ -1,6 +1,6 @@
 from typing import Dict, Tuple
 
-from fvgvisionai.processor.ultralytics_classes import PERSON, BICYCLE, CAR, MOTORCYCLE, BUS, TRUCK
+from fvgvisionai.processor.ultralytics_classes import PERSON, BICYCLE, CAR, MOTORCYCLE, BUS, TRUCK, ELECTRIC_SCOOTER
 
 
 class ModelCategory:
@@ -21,8 +21,10 @@ categories_dict: Dict[int, ModelCategory] = {
     MOTORCYCLE: ModelCategory("motorcycle", (56, 0, 255, 0.5), "motorcycle", MOTORCYCLE),
     BUS: ModelCategory("bus", (169, 10, 150, 0.5), "bus", BUS),
     TRUCK: ModelCategory("truck", (169, 255, 143, 0.5), "truck", TRUCK),
+    ELECTRIC_SCOOTER: ModelCategory("electric_scooter", (209, 255, 143, 0.5), "scooter", ELECTRIC_SCOOTER)
 }
 
 all_category_list = [categories_dict[PERSON], categories_dict[BICYCLE],
                      categories_dict[CAR], categories_dict[MOTORCYCLE],
-                     categories_dict[BUS], categories_dict[TRUCK]]
+                     categories_dict[BUS], categories_dict[TRUCK],
+                     categories_dict[ELECTRIC_SCOOTER]]

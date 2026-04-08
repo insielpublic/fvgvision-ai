@@ -37,9 +37,8 @@ function download_file() {
     # Crea il file {platform_name}_assets.txt nella directory del file scaricato
     local assets_file_path="$local_path/${platform_name}_assets.txt"
     touch "$assets_file_path"
-    echo "Created assets file: $assets_file_path"
+    #echo "Created assets file: $assets_file_path"
 }
-
 
 # Funzione per verificare se la piattaforma ha già gli asset scaricati
 function check_assets_exists() {
@@ -78,26 +77,20 @@ function main() {
         exit 1
     fi
 
-    # Se la piattaforma non è stata specificata da CLI, chiedi all'utente di selezionarla
+    # Se la piattaforma non è stata specificata da CLI, mostra le sezioni disponibili
     if [[ -z $1 ]]; then
-        echo "Available platforms:"
-        for i in "${!platforms[@]}"; do
-            echo "$((i + 1)). ${platforms[i]}"
+        echo "Available platforms (sections in the INI file):"
+        for platform in "${platforms[@]}"; do
+            echo "- $platform"
         done
+        exit 0
+    fi
 
-        read -rp "Select a platform (number): " choice
-        if ((choice < 1 || choice > ${#platforms[@]})); then
-            echo "Invalid choice."
-            exit 1
-        fi
-        selected_platform="${platforms[choice - 1]}"
-    else
-        # Verifica che la piattaforma specificata da CLI esista nel file di configurazione
-        selected_platform="$1"
-        if [[ ! " ${platforms[*]} " =~ " ${selected_platform} " ]]; then
-            echo "Platform '$selected_platform' not found in the configuration file."
-            exit 1
-        fi
+    # Verifica che la piattaforma specificata da CLI esista nel file di configurazione
+    selected_platform="$1"
+    if [[ ! " ${platforms[*]} " =~ " ${selected_platform} " ]]; then
+        echo "Platform '$selected_platform' not found in the configuration file."
+        exit 1
     fi
 
     echo "Selected platform: $selected_platform"

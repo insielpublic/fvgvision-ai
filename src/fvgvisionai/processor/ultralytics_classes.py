@@ -78,3 +78,4 @@ SCISSORS = 76  # Forbici
 TEDDY_BEAR = 77  # Orsacchiotto
 HAIR_DRIER = 78  # Asciugacapelli
 TOOTHBRUSH = 79  # Spazzolino da denti
+ELECTRIC_SCOOTER = 80 # monopattino, ma solo su modello tuned

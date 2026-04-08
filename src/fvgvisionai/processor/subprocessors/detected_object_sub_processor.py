@@ -46,7 +46,8 @@ class DetectedObjectSubProcessor:
                                           "car": cv2.imread('assets/images/icon_car16.png', -1),
                                           "motorcycle": cv2.imread('assets/images/icon_motorbike16.png', -1),
                                           "bus": cv2.imread('assets/images/icon_bus16.png', -1),
-                                          "truck": cv2.imread('assets/images/icon_truck16.png', -1)}
+                                          "truck": cv2.imread('assets/images/icon_truck16.png', -1),
+                                          "electric_scooter": cv2.imread('assets/images/icon_scooter16.png', -1)}
 
         self._logger = logging.getLogger(__name__)
 

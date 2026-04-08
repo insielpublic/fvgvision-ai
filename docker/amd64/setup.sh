@@ -28,10 +28,3 @@ echo "GROUP_ID=$GROUP_ID" >> .env
 echo "APP_PATH=$APP_PATH" >> .env
 
 echo "Le variabili USER_ID=$USER_ID, GROUP_ID=$GROUP_ID e APP_PATH=$APP_PATH sono state scritte nel file .env."
-
-# Aggiungi le righe al file .bashrc nella cartella runtime
-BASHRC_FILE=./runtime/.bashrc
-
-if [ ! -f "$BASHRC_FILE" ]; then
-    touch "$BASHRC_FILE"
-fi

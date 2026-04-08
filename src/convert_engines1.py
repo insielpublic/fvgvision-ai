@@ -7,10 +7,10 @@ base_dir = "./assets/models/"
 models_info = [
     #    'yolov8x',
     #    'yolov8x-pose',
-    #'yolov8n',
-    #'yolov8n-pose',
+    #"'yolov8n',
+    'yolov8n-pose',
     #'yolo11n',
-    'yolo11n-pose',
+    #'yolo11n-pose',
     #    'yolov8s',
     #    'yolov8s-pose',
     #    'yolov8m',

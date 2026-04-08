@@ -3,6 +3,8 @@
 src/.idea
 src/assets/models/**/*.txt
 src/assets/models/**/*.engine
+src/assets/models/**/*.onnx
+src/assets/models/**/*.cache
 src/assets/models/**/*.pt
 src/fvgvisionai/**/__pycache__/
 venv
@@ -14,3 +16,5 @@ assets/models/**/*.engine
 assets/videos
 **/*.lock
 
+/src/datasets/
+/assets/monopattini/

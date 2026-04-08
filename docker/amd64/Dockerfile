@@ -3,7 +3,7 @@ FROM python:3.10.15-slim-bullseye AS common
 
 # Aggiunta della direttiva LABEL per fornire metadati
 LABEL maintainer="Francesco Benincasa <xcesco@gmail.com>" \
-      version="0.2.0" \
+      version="0.2.1" \
       description="FVG Vision AI on docker"
 
 # Esposizione delle porte 5000 e 8080 (video in oupput)
@@ -52,7 +52,8 @@ RUN apt-get update && apt-get install -y software-properties-common apt-utils \
 
 # Nginx
 RUN apt-get update && apt-get install -y nginx
-COPY ./build/assets/nginx/players /usr/share/nginx/html/
+COPY ./build/assets/nginx/editor /usr/share/nginx/html/editor
+COPY ./build/assets/nginx/players /usr/share/nginx/html/output-stream
 COPY ./build/assets/nginx/config/nginx.conf /etc/nginx/nginx.conf
 
 ##############################################################
@@ -72,7 +73,7 @@ RUN pip3 install torch
 RUN pip3 install torchvision
 
 RUN pip3 install azure.iot.device openpyxl
-RUN pip3 install flask flask_wtf Flask-CORS configparser cython pytz waitress
+RUN pip3 install flask flask_wtf Flask-CORS flask-swagger-ui configparser  cython pytz waitress
 RUN pip3 install ultralytics
 #RUN pip3 uninstall opencv-python -y
 
