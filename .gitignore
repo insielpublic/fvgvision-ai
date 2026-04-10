@@ -15,6 +15,7 @@ assets/models/**/*.txt
 assets/models/**/*.engine
 assets/videos
 **/*.lock
-
 /src/datasets/
 /assets/monopattini/
+src/.vscode/*
+.vscode/*

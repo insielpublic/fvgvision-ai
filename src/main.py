@@ -18,6 +18,7 @@ from fvgvisionai.config.app_settings import load_settings_from_file, load_settin
 from fvgvisionai.input.frame_reader import run_reader
 from fvgvisionai.notify.notification_client import NotificationClient
 from fvgvisionai.output.hls.hls_streamer import run_hls_streamer_thread
+from fvgvisionai.output.rtsp.ffmpegRtspStreamer import FFMpegRtspStreamer
 from fvgvisionai.webserver.web_server import run_web_server
 
 DEFAULT_CONFIG_INI = 'default_config.ini'
@@ -96,6 +97,17 @@ def main() -> int:
     hls_streamer_thread = None
     if app_settings.video_output_stream:
         hls_streamer_thread = run_hls_streamer_thread(video_observable, image_buffer, app_settings, exit_signal)
+
+    if app_settings.video_output_rtsp:
+        rtsp_streamer_thread = FFMpegRtspStreamer(
+            buffer=image_buffer,
+            image_size=app_settings.video_output_rtsp_risoluzione,
+            fps=app_settings.video_output_fps,
+            rtsp_url=app_settings.video_output_rtsp_url,
+            use_nvenc=app_settings.video_output_rtsp_gpu_nvidia,   # se hai GPU NVIDIA usa nvenc
+        )
+        rtsp_streamer_thread.start()
+
 
     if app_settings.video_output_image:
         web_server_thread = threading.Thread(target=run_web_server,

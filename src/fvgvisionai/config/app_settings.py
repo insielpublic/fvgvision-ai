@@ -12,7 +12,7 @@ from fvgvisionai.config.app_settings_utils import from_props, \
     VideoSourceMode, to_parking_list, to_str, to_model_filename, ModelId, to_model_id
 from fvgvisionai.config.colored_formatter import ColoredFormatter
 from fvgvisionai.config.constants import NOTIFICATION_AZURE_CONNECTION_STRING, \
-    LOGGING_LEVEL, SECTION_SETTINGS, VIDEO_SOURCE, \
+    LOGGING_LEVEL, SECTION_SETTINGS, VIDEO_OUTPUT_RTSP, VIDEO_OUTPUT_RTSP_GPU_NVIDIA, VIDEO_OUTPUT_RTSP_RISOLUZIONE, VIDEO_OUTPUT_RTSP_URL, VIDEO_SOURCE, \
     SECTION_VIDEO_SOURCE, VIDEO_SOURCE_FORCED_FPS_ENABLED, VIDEO_SOURCE_FORCED_FPS_VALUE, \
     VIDEO_SOURCE_FORCED_RESOLUTION_ENABLED, VIDEO_SOURCE_FORCED_RESOLUTION_VALUE, MODEL_LIBRARY, SECTION_MODEL, \
     MODEL_ID, MODEL_CONFIDENCE, MODEL_USE_TENSORT, MODEL_IOU, MODEL_IMAGE_SIZE, MODEL_SIZE, MODEL_DO_TRACKING, \
@@ -151,6 +151,12 @@ class AppSettings:
                 from_props(properties, config, VIDEO_OUTPUT_STREAM_HLS_TIME, SECTION_VIDEO_OUTPUT))
             self._video_output_stream_hls_gop = int(
                 from_props(properties, config, VIDEO_OUTPUT_STREAM_HLS_GOP, SECTION_VIDEO_OUTPUT))
+
+            # section SECTION_VIDEO_OUTPUT
+            self._video_output_rtsp = to_bool(from_props(properties, config, VIDEO_OUTPUT_RTSP, SECTION_VIDEO_OUTPUT))
+            self._video_output_rtsp_url = from_props(properties, config, VIDEO_OUTPUT_RTSP_URL, SECTION_VIDEO_OUTPUT)
+            self._video_output_rtsp_gpu_nvidia = to_bool(from_props(properties, config, VIDEO_OUTPUT_RTSP_GPU_NVIDIA, SECTION_VIDEO_OUTPUT))
+            self._video_output_rtsp_risoluzione = from_props(properties, config, VIDEO_OUTPUT_RTSP_RISOLUZIONE, SECTION_VIDEO_OUTPUT)
 
             # section SECTION_VIDEO_OUTPUT
             self._video_output_image = to_bool(from_props(properties, config, VIDEO_OUTPUT_IMAGE, SECTION_VIDEO_OUTPUT))
@@ -602,6 +608,22 @@ class AppSettings:
     @property
     def video_output_stream(self) -> bool:
         return self._video_output_stream
+    
+    @property
+    def video_output_rtsp(self) -> bool:
+        return self._video_output_rtsp
+
+    @property
+    def video_output_rtsp_url(self) -> str:
+        return self._video_output_rtsp_url
+
+    @property
+    def video_output_rtsp_gpu_nvidia(self) -> bool:
+        return self._video_output_rtsp_gpu_nvidia
+
+    @property
+    def video_output_rtsp_risoluzione(self) -> str:
+        return self._video_output_rtsp_risoluzione
 
     @property
     def video_output_fps(self) -> int:
