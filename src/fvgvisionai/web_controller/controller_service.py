@@ -8,7 +8,7 @@ ENV_WEB_FILENAME = '/app/.env-main-web'
 RUN_MAIN_WEB = "/app/run_main_web.sh"
 
 
-def generate_image_preview(url: str, width: int, height: int) -> [Response, int]:
+def generate_image_preview(url: str, width: int, height: int) -> tuple[Response, int]:
     """
     Generates a preview image from a video stream URL.
 
@@ -60,7 +60,7 @@ def generate_image_preview(url: str, width: int, height: int) -> [Response, int]
                     "original_width": original_width, "original_height": original_height}), 200
 
 
-def _get_default_image_base64() -> (str, int, int):
+def _get_default_image_base64() -> tuple[str, int, int]:
     """
     Loads the default image from disk and returns it in base64 format along with its dimensions.
 

@@ -1,0 +1,41 @@
+FROM xcesco/fvgvision-ai:0.3.0-agx-base-dev AS development-base
+# già definito in bas dev
+
+# Fase di sviluppo
+FROM development-base AS development
+
+# Esposizione della porta SSH per il debug
+EXPOSE 22/tcp
+# Esposizione di jupiter notebook
+EXPOSE 8888/tcp
+
+# Installazione del server SSH
+RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /run/sshd
+RUN chown root:root /run/sshd
+RUN chmod 755 /run/sshd
+
+# Copia dello script di avvio personalizzato per lo sviluppos
+COPY ./build/assets/entrypoints/start_dev.sh /docker-entrypoint.sh
+# Impostazione dei permessi di esecuzione per lo script di avvio
+RUN chmod +x /docker-entrypoint.sh
+
+WORKDIR /home/developer/
+
+# Comando di avvio per la fase di sviluppo
+CMD ["/docker-entrypoint.sh"]
+
+# Fase di produzione
+FROM development-base AS production
+
+# Copia dello script di avvio personalizzato per lo sviluppo
+COPY ./build/assets/entrypoints/start_prod.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Copy the app directory into the container
+COPY build/app /app
+
+WORKDIR /home/developer/
+
+# Comando di avvio per la fase di produzione
+CMD ["/docker-entrypoint.sh"]

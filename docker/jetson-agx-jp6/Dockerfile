@@ -9,7 +9,6 @@ LABEL maintainer="Francesco Benincasa <xcesco@gmail.com>" \
 # Esposizione delle porte 5000 e 8080 (video in oupput), 8081 web controller
 EXPOSE 5000/tcp
 EXPOSE 8080/tcp
-
 EXPOSE 8081/tcp
 
 # Base layer

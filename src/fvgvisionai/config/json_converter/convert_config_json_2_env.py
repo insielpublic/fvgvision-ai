@@ -40,6 +40,8 @@ def process_node(node) -> (any, int, int):
         process_output_skip_frames(node_payload, processed_data)
     elif node_type == NodeTemplateEnum.OUTPUT_STREAM.value:
         process_output_stream(node_payload, processed_data)
+    elif node_type == NodeTemplateEnum.OUTPUT_RTSP_STREAM.value:
+        process_output_rtsp_stream(node_payload, processed_data)
     elif node_type == NodeTemplateEnum.IOT_HUB_NOTIFICATION.value:
         process_iot_hub_notification(node_payload, processed_data)
     elif node_type == NodeTemplateEnum.SCENARIO_IN_ZONE.value:
@@ -107,13 +109,17 @@ def process_skip_frames(node_payload, processed_data):
 def process_output_skip_frames(node_payload, processed_data):
     processed_data['VIDEO_OUTPUT_FPS'] = convert_2_string(node_payload['fps'])
 
-
 def process_output_stream(node_payload, processed_data):
     processed_data['VIDEO_OUTPUT_STREAM'] = convert_2_bool(node_payload['enabled'])
     processed_data['VIDEO_OUTPUT_STREAM_HLS_BANDWIDTH'] = convert_2_number_sequence(node_payload['hls_bandwidth'])
     processed_data['VIDEO_OUTPUT_STREAM_HLS_TIME'] = convert_2_number_sequence(node_payload['hls_time'])
     processed_data['VIDEO_OUTPUT_STREAM_HLS_GOP'] = convert_2_number_sequence(node_payload['hls_gop'])
 
+def process_output_rtsp_stream(node_payload, processed_data):
+    processed_data['VIDEO_OUTPUT_RTSP'] = convert_2_bool(node_payload['enabled'])
+    processed_data['VIDEO_OUTPUT_RTSP_URL'] = convert_2_string(node_payload['rtsp_url'])
+    processed_data['VIDEO_OUTPUT_RTSP_GPU_NVIDIA'] = convert_2_bool(node_payload['rtsp_gpu_nvidia'])
+    processed_data['VIDEO_OUTPUT_RTSP_RISOLUZIONE'] = convert_2_string(node_payload['rtsp_resolution'])
 
 def process_iot_hub_notification(node_payload, processed_data):
     processed_data['NOTIFICATION_ENABLED'] = convert_2_bool(node_payload['enabled'])
