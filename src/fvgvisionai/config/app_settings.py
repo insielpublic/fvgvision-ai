@@ -294,6 +294,14 @@ class AppSettings:
             self._video_output_stream_hls_gop = int(
                 from_env(config, VIDEO_OUTPUT_STREAM_HLS_GOP, SECTION_VIDEO_OUTPUT, cli_args))
 
+            # section SECTION_VIDEO_OUTPUT_RTSP
+            self._video_output_rtsp = to_bool(from_env(config, VIDEO_OUTPUT_RTSP, SECTION_VIDEO_OUTPUT, cli_args))
+            self._video_output_rtsp_url = from_env(config, VIDEO_OUTPUT_RTSP_URL, SECTION_VIDEO_OUTPUT, cli_args)
+            self._video_output_rtsp_gpu_nvidia = to_bool(
+                from_env(config, VIDEO_OUTPUT_RTSP_GPU_NVIDIA, SECTION_VIDEO_OUTPUT, cli_args))
+            self._video_output_rtsp_risoluzione = from_env(config, VIDEO_OUTPUT_RTSP_RISOLUZIONE,
+                                                             SECTION_VIDEO_OUTPUT, cli_args)
+
             self._video_output_fps = int(from_env(config, VIDEO_OUTPUT_FPS, SECTION_VIDEO_OUTPUT, cli_args))
             self._video_output_image = to_bool(from_env(config, VIDEO_OUTPUT_IMAGE, SECTION_VIDEO_OUTPUT, cli_args))
             self._video_output_image_quality = int(

@@ -40,7 +40,7 @@ def process_node(node) -> (any, int, int):
         process_output_skip_frames(node_payload, processed_data)
     elif node_type == NodeTemplateEnum.OUTPUT_STREAM.value:
         process_output_stream(node_payload, processed_data)
-    elif node_type == NodeTemplateEnum.OUTPUT_RTSP_STREAM.value:
+    elif node_type == NodeTemplateEnum.OUTPUT_RTSP.value:
         process_output_rtsp_stream(node_payload, processed_data)
     elif node_type == NodeTemplateEnum.IOT_HUB_NOTIFICATION.value:
         process_iot_hub_notification(node_payload, processed_data)
