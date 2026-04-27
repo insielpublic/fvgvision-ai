@@ -1,5 +1,5 @@
 import logging
-from typing import List, Set
+from typing import List, Set, Dict, Tuple
 
 import cv2
 from numpy import ndarray
@@ -23,18 +23,21 @@ class DoorSubProcessor(AbstractSubProcessor):
 
         self._category_set = set(obj.model_class for obj in app_settings.scenario_door_categories)
 
-        self._total_people_entering: int = 0
-        self._total_people_leaving: int = 0
+        # Initialize per-category counters
+        self._total_entering_by_category: Dict[int, int] = {cat: 0 for cat in self._category_set}
+        self._total_leaving_by_category: Dict[int, int] = {cat: 0 for cat in self._category_set}
 
         self._people_inside: int = 0
         self._logger = logging.getLogger(__name__)
 
-    def detected_objects_near_door_zone(self, list_objects: List[DetectedObject]) -> [int, int, int, int]:
+    def detected_objects_near_door_zone(self, list_objects: List[DetectedObject]) -> Tuple[Dict[int, int], Dict[int, int], int, int]:
         entering_obj_set: Set[int] = set()
         leaving_obj_set: Set[int] = set()
 
-        entering_obj_count = 0
-        leaving_obj_count = 0
+        # Per-category frame counters
+        entering_by_category: Dict[int, int] = {cat: 0 for cat in self._category_set}
+        leaving_by_category: Dict[int, int] = {cat: 0 for cat in self._category_set}
+        
         for obj in (obj for obj in list_objects if obj.label_num in self._category_set):
             # lower point of bounding box, representing the feet
             feet_bb = (obj.bbox_x, obj.bbox_y + int(obj.bbox_h / 2))
@@ -59,7 +62,7 @@ class DoorSubProcessor(AbstractSubProcessor):
                 if obj.id in self._previous_people_in_leaving_zone:
                     self._previous_people_in_leaving_zone.remove(obj.id)
                     self._people_inside += 1
-                    entering_obj_count += 1
+                    entering_by_category[obj.label_num] += 1
                     obj.is_door_entering_zone = True
                     obj.is_door_leaving_zone = False
             elif point_in_leaving_polygon >= 0:
@@ -70,17 +73,23 @@ class DoorSubProcessor(AbstractSubProcessor):
                     self._people_inside -= 1
                     if self._people_inside < 0:
                         self._people_inside = 0
-                    leaving_obj_count += 1
+                    leaving_by_category[obj.label_num] += 1
                     obj.is_door_entering_zone = False
                     obj.is_door_leaving_zone = True
 
         self._previous_people_in_leaving_zone = leaving_obj_set
         self._previous_people_in_entering_zone = entering_obj_set
 
-        self._total_people_entering = (self._total_people_entering + entering_obj_count) % 1_000
-        self._total_people_leaving = (self._total_people_leaving + leaving_obj_count) % 1_000
+        # Update internal totals per category (with modulo to prevent overflow)
+        for cat in self._category_set:
+            self._total_entering_by_category[cat] = (self._total_entering_by_category[cat] + entering_by_category[cat]) % 1_000
+            self._total_leaving_by_category[cat] = (self._total_leaving_by_category[cat] + leaving_by_category[cat]) % 1_000
 
-        return self._total_people_entering, self._total_people_leaving, entering_obj_count, leaving_obj_count
+        # Calculate accumulated totals for display
+        total_entering = sum(self._total_entering_by_category.values())
+        total_leaving = sum(self._total_leaving_by_category.values())
+
+        return entering_by_category, leaving_by_category, total_entering, total_leaving
 
     def draw(self, frame: ndarray) -> ndarray:
         color_zone_in = (0, 0, 255)  # Rosso

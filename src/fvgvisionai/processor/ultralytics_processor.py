@@ -224,9 +224,9 @@ class UltralyticsFrameProcessor(AbstractFrameProcessor, ABC):
             total_people_entering = 0
             total_people_leaving = 0
             if self._door_processor.is_enabled:
-                (people_entering, people_leaving,
+                (entering_by_category, leaving_by_category,
                  total_people_entering, total_people_leaving) = self.process_scenario_door()
-                data_aggregator.measure_people_near_door(people_entering, people_leaving)
+                data_aggregator.measure_people_near_door(entering_by_category, leaving_by_category)
 
             # Process scenario raise hands
             if self._raise_your_hand_processor.is_enabled:
@@ -343,12 +343,17 @@ class UltralyticsFrameProcessor(AbstractFrameProcessor, ABC):
         return avg_time_in_zone, max_time_in_zone, min_time_in_zone, objects_in_zone, zone_alarm_status
 
     def process_scenario_door(self):
-        total_people_entering, total_people_leaving, people_entering, people_leaving = 0, 0, 0, 0
+        entering_by_category = {}
+        leaving_by_category = {}
+        total_entering = 0
+        total_leaving = 0
         if self._door_processor.is_enabled:
-            (total_people_entering, total_people_leaving,
-             people_entering, people_leaving) = (self._door_processor
-                                                 .detected_objects_near_door_zone(self.list_objects))
-        return people_entering, people_leaving, total_people_entering, total_people_leaving
+            (entering_by_category, 
+             leaving_by_category,
+             total_entering,
+             total_leaving) = (self._door_processor
+                              .detected_objects_near_door_zone(self.list_objects))
+        return entering_by_category, leaving_by_category, total_entering, total_leaving
 
     def extract_detected_objects(self, list_res_detect, pose_enabled: bool) -> List[DetectedObject]:
         list_objects: List[DetectedObject] = []

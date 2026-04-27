@@ -13,6 +13,7 @@ from fvgvisionai.common.app_alarm import AlarmStatus
 from fvgvisionai.common.app_timer import AppTimer
 from fvgvisionai.common.atomic_boolean import AtomicBoolean
 from fvgvisionai.processor.data_aggregator import DataAggregator
+from fvgvisionai.processor.categories import categories_dict
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 
@@ -190,13 +191,37 @@ class NotificationClient:
             "min_time_in_zone": data.max_time_in_zone,
             "avg_time_in_zone": data.avg_time_in_zone,
 
-            "sum_entrances": data.door_people_entered,
-            "sum_exits": data.door_people_leaved,
-
             "device_id": self._device_id,
             "camera_id": self._camera_id,
             "model_id": self._model_id
         }
+        
+        # Add per-category door counters
+        total_entrances = 0
+        total_exits = 0
+        
+        for label_num, count in data.door_entered_by_category.items():
+            # Get category label string, fallback to class number if not found
+            if label_num in categories_dict:
+                label_str = categories_dict[label_num].label
+            else:
+                label_str = f'class_{label_num}'
+            agg_frame_info_dict[f"sum_entrances_{label_str}"] = count
+            total_entrances += count
+        
+        for label_num, count in data.door_exited_by_category.items():
+            # Get category label string, fallback to class number if not found
+            if label_num in categories_dict:
+                label_str = categories_dict[label_num].label
+            else:
+                label_str = f'class_{label_num}'
+            agg_frame_info_dict[f"sum_exits_{label_str}"] = count
+            total_exits += count
+        
+        # Add aggregate totals for backward compatibility
+        agg_frame_info_dict["sum_entrances"] = total_entrances
+        agg_frame_info_dict["sum_exits"] = total_exits
+        
         return agg_frame_info_dict
 
     # people in zone,man down

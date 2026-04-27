@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from fvgvisionai.processor.detected_object import DetectedObject
 from fvgvisionai.processor.measure import IntMeasure, FloatMeasure
@@ -14,8 +14,9 @@ class DataAggregator:
         self.people_in_zone_counter = IntMeasure()
         self.people_with_raised_hands = IntMeasure()
 
-        self.door_people_entered = 0
-        self.door_people_leaved = 0
+        # Per-category door counters: {label_num: count}
+        self.door_entered_by_category: Dict[int, int] = {}
+        self.door_exited_by_category: Dict[int, int] = {}
 
         self.time_in_zone = IntMeasure()
 
@@ -34,8 +35,8 @@ class DataAggregator:
         self.cars_counter.clear()
         self.people_in_zone_counter.clear()
 
-        self.door_people_entered = 0
-        self.door_people_leaved = 0
+        self.door_entered_by_category.clear()
+        self.door_exited_by_category.clear()
         self.time_frame_acquisition.clear()
         self.time_frame_processing.clear()
 
@@ -51,9 +52,12 @@ class DataAggregator:
         self.max_time_in_zone = max_time_in_zone
         self.avg_time_in_zone = avg_time_in_zone
 
-    def measure_people_near_door(self, people_entering: int, people_leaving: int):
-        self.door_people_entered += people_entering
-        self.door_people_leaved += people_leaving
+    def measure_people_near_door(self, entering_by_category: Dict[int, int], leaving_by_category: Dict[int, int]):
+        # Accumulate per-category counts
+        for category, count in entering_by_category.items():
+            self.door_entered_by_category[category] = self.door_entered_by_category.get(category, 0) + count
+        for category, count in leaving_by_category.items():
+            self.door_exited_by_category[category] = self.door_exited_by_category.get(category, 0) + count
 
     def measure_time_frame_acquisition(self, time_acquired_frame: float):
         self.time_frame_acquisition.add(time_acquired_frame)
@@ -84,8 +88,8 @@ class DataAggregator:
         copied_instance.bikes_counter = self.bikes_counter.copy()
         copied_instance.cars_counter = self.cars_counter.copy()
         copied_instance.people_in_zone_counter = self.people_in_zone_counter.copy()
-        copied_instance.door_people_entered = self.door_people_entered
-        copied_instance.door_people_leaved = self.door_people_leaved
+        copied_instance.door_entered_by_category = self.door_entered_by_category.copy()
+        copied_instance.door_exited_by_category = self.door_exited_by_category.copy()
 
         copied_instance.min_time_in_zone = self.min_time_in_zone
         copied_instance.max_time_in_zone = self.max_time_in_zone
