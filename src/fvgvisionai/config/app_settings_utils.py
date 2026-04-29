@@ -25,6 +25,7 @@ class ModelLibrary(Enum):
 class ModelId(Enum):
     V8 = {"name": "yolo8", "prefix": "yolov8"}
     V11 = {"name": "yolo11", "prefix": "yolo11"}
+    V26 = {"name": "yolo26", "prefix": "yolo26"}
 
 class ModelSize(Enum):
     NANO = {"name": "nano", "suffix": "n"}
